@@ -1,6 +1,5 @@
-       // Sistema de Autenticação
+
        document.addEventListener('DOMContentLoaded', function() {
-        // Elementos do DOM
         const loginContainer = document.getElementById('login-container');
         const loginPanel = document.getElementById('login-panel');
         const registerPanel = document.getElementById('register-panel');
@@ -19,10 +18,10 @@
         const navItems = document.querySelectorAll('.nav-item');
         const sections = document.querySelectorAll('.section');
     
-        // Verificar autenticação
+        
         checkAuth();
     
-        // Alternar entre login e registro
+        
         registerLink.addEventListener('click', function(e) {
             e.preventDefault();
             loginPanel.style.display = 'none';
@@ -69,15 +68,15 @@
             registerUser(username, password);
         });
     
-        // Tema claro/escuro
+        
         themeToggle.addEventListener('click', toggleTheme);
     
-        // Logout
+        
         if (logoutBtn) {
             logoutBtn.addEventListener('click', logout);
         }
     
-        // Navegação entre seções
+        
         navItems.forEach(item => {
             if (item.dataset.section) {
                 item.addEventListener('click', function() {
@@ -93,7 +92,7 @@
             }
         });
     
-        // Funções de autenticação
+        
         function checkAuth() {
             const loggedIn = localStorage.getItem('loggedIn') === 'true';
             const currentUser = JSON.parse(localStorage.getItem('currentUser') || 'null');
@@ -139,23 +138,22 @@
             localStorage.setItem('loggedIn', 'true');
             localStorage.setItem('currentUser', JSON.stringify(newUser));
             
-            // Inicializa dados do novo usuário
+            
             initializeUserData(newUser.username);
             
-            // Redireciona para o dashboard
+          
             showDashboard(newUser);
-            
-            // Limpa formulário
+           
             document.getElementById('reg-username').value = '';
             document.getElementById('reg-password').value = '';
             document.getElementById('reg-confirm-password').value = '';
         }
     
         function initializeUserData(username) {
-            // Dados iniciais para novo usuário
+            
             const today = new Date();
             
-            // Histórico de peso inicial
+            
             const weightHistory = [
                 { 
                     date: new Date(today.getFullYear(), today.getMonth(), today.getDate() - 30).toISOString(), 
@@ -169,7 +167,7 @@
                 }
             ];
             
-            // Histórico de força inicial
+       
             const strengthHistory = [
                 { 
                     date: today.toISOString(), 
@@ -179,7 +177,7 @@
                 }
             ];
             
-            // Armazena dados específicos do usuário
+            
             localStorage.setItem(`${username}_workouts`, JSON.stringify([]));
             localStorage.setItem(`${username}_weightHistory`, JSON.stringify(weightHistory));
             localStorage.setItem(`${username}_strengthHistory`, JSON.stringify(strengthHistory));
@@ -203,7 +201,7 @@
             loginPanel.style.display = 'flex';
             registerPanel.style.display = 'none';
             
-            // Limpa campos de login
+            
             document.getElementById('username').value = '';
             document.getElementById('password').value = '';
         }
@@ -229,18 +227,18 @@
             showLogin();
         }
     
-        // Sistema de Temas
+       
         function toggleTheme() {
             document.body.classList.toggle('dark-mode');
             localStorage.setItem('darkMode', document.body.classList.contains('dark-mode'));
         }
     
-        // Verificar preferência de tema
+      
         if (localStorage.getItem('darkMode') === 'true') {
             document.body.classList.add('dark-mode');
         }
     
-        // Inicializar Dashboard
+        
         function initializeDashboard() {
             initializeStorage();
             loadDashboardData();
@@ -248,16 +246,14 @@
             initCharts();
             setupEventListeners();
             
-            // Preenche a data atual nos formulários
+            
             const today = new Date().toISOString().split('T')[0];
             document.getElementById('workout-date').value = today;
             document.getElementById('weight-date').value = today;
             document.getElementById('weight-date-2').value = today;
         }
     
-        // -------------------------------------------------------------------
-        // FUNÇÕES DO DASHBOARD DE ACADEMIA
-        // -------------------------------------------------------------------
+        
         function initializeStorage() {
             const currentUser = JSON.parse(localStorage.getItem('currentUser') || 'null');
             if (!currentUser) return;
@@ -514,7 +510,7 @@
                 });
             }
             
-            // Gráfico de força (supino)
+            
             const strengthHistory = JSON.parse(localStorage.getItem(`${currentUser.username}_strengthHistory`) || []);
             if (strengthHistory.length > 0) {
                 const strengthCtx = document.getElementById('strengthChart').getContext('2d');
@@ -580,7 +576,7 @@
                 });
             }
             
-            // Gráficos adicionais para outras seções
+            
             initAdditionalCharts();
         }
     
@@ -588,15 +584,15 @@
             const currentUser = JSON.parse(localStorage.getItem('currentUser') || 'null');
             if (!currentUser) return;
     
-            // Gráfico de evolução de carga
+            
             const workouts = JSON.parse(localStorage.getItem(`${currentUser.username}_workouts`) || []);
             if (workouts.length > 0) {
-                // Implementar lógica para gráficos adicionais
+                
             }
         }
     
         function setupEventListeners() {
-            // Tabs
+            
             document.querySelectorAll('.tab').forEach(tab => {
                 tab.addEventListener('click', function() {
                     document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
@@ -607,8 +603,7 @@
                     document.getElementById(tabId).classList.add('active');
                 });
             });
-            
-            // Adicionar série
+           
             document.addEventListener('click', function(e) {
                 if (e.target.classList.contains('add-set')) {
                     const setsContainer = e.target.previousElementSibling;
@@ -625,8 +620,7 @@
                     
                     setsContainer.appendChild(newSet);
                 }
-                
-                // Remover série
+               
                 if (e.target.classList.contains('remove-set')) {
                     const set = e.target.parentElement;
                     const setsContainer = set.parentElement;
@@ -634,7 +628,7 @@
                     if (setsContainer.querySelectorAll('.exercise-set').length > 1) {
                         set.remove();
                         
-                        // Atualiza números das séries
+                        
                         const sets = setsContainer.querySelectorAll('.exercise-set');
                         sets.forEach((s, i) => {
                             s.querySelector('.set-number').value = i + 1;
@@ -645,7 +639,7 @@
                 }
             });
             
-            // Adicionar exercício
+         
             document.getElementById('add-exercise').addEventListener('click', function() {
                 const exercisesContainer = document.getElementById('exercises-container');
                 
@@ -670,7 +664,7 @@
                 exercisesContainer.appendChild(newExercise);
             });
             
-            // Salvar treino - VERSÃO CORRIGIDA
+           
             document.getElementById('save-workout').addEventListener('click', function() {
                 const currentUser = JSON.parse(localStorage.getItem('currentUser') || 'null');
                 if (!currentUser) {
@@ -738,7 +732,6 @@
                     loadDashboardData();
                     initCharts();
                     
-                    // Limpa formulário mantendo um exercício vazio
                     document.getElementById('exercises-container').innerHTML = `
                         <div class="exercise">
                             <div class="form-group">
@@ -764,7 +757,7 @@
                 }
             });
             
-            // Salvar peso (primeiro formulário) - VERSÃO CORRIGIDA
+    
             document.getElementById('save-weight').addEventListener('click', function() {
                 saveWeightData(
                     document.getElementById('weight-date').value,
@@ -773,7 +766,7 @@
                 );
             });
             
-            // Salvar peso (segundo formulário) - VERSÃO CORRIGIDA
+           
             document.getElementById('save-weight-2').addEventListener('click', function() {
                 saveWeightData(
                     document.getElementById('weight-date-2').value,
@@ -783,7 +776,7 @@
                 );
             });
             
-            // Função para salvar peso - VERSÃO CORRIGIDA
+            
             function saveWeightData(date, weight, bodyFat, bodyMuscle = null) {
                 const currentUser = JSON.parse(localStorage.getItem('currentUser') || 'null');
                 if (!currentUser) {
@@ -796,7 +789,7 @@
                     return;
                 }
                 
-                // Verifica se o peso é um número válido
+                
                 const weightValue = parseFloat(weight);
                 if (isNaN(weightValue)) {
                     alert('Por favor, insira um valor numérico válido para o peso.');
@@ -804,7 +797,7 @@
                 }
                 
                 const weightData = {
-                    date: new Date(date).toISOString(), // Garante formato consistente
+                    date: new Date(date).toISOString(), 
                     weight: weightValue,
                     bodyFat: bodyFat ? parseFloat(bodyFat) : null,
                     muscle: bodyMuscle ? parseFloat(bodyMuscle) : null
@@ -812,25 +805,25 @@
                 
                 let weightHistory = JSON.parse(localStorage.getItem(`${currentUser.username}_weightHistory`) || '[]');
                 
-                // Verifica se já existe registro para esta data
+               
                 const existingIndex = weightHistory.findIndex(entry => 
                     new Date(entry.date).toDateString() === new Date(date).toDateString()
                 );
                 
                 if (existingIndex >= 0) {
-                    // Atualiza registro existente
+                    
                     weightHistory[existingIndex] = weightData;
                 } else {
-                    // Adiciona novo registro
+                    
                     weightHistory.push(weightData);
                 }
                 
-                // Ordena por data (mais recente primeiro)
+                
                 weightHistory.sort((a, b) => new Date(b.date) - new Date(a.date));
                 
                 localStorage.setItem(`${currentUser.username}_weightHistory`, JSON.stringify(weightHistory));
                 
-                // Atualiza dashboard e gráficos
+             
                 loadDashboardData();
                 initCharts();
                 
