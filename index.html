@@ -1,0 +1,242 @@
+<!doctype html>
+<html lang="pt-BR"> 
+ <head> 
+  <meta charset="UTF-8"> 
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"> 
+  <title>FitTrack - Seu Progresso Fitness</title> 
+  <link rel="stylesheet" href="style.css">
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script> 
+ </head> 
+ <body> <!-- Tela de Login/Registro --> 
+  <div class="login-container" id="login-container"> 
+   <div class="left-panel"> 
+    <h1>Bem-vindo ao FitTrack</h1> 
+    <p>Acompanhe seu progresso na academia e alcance seus objetivos fitness.</p> 
+   </div> 
+   <div class="right-panel" id="login-panel"> 
+    <div class="logo"> 
+     <h2>FitTrack</h2> 
+     <p>Entre na sua conta</p> 
+    </div> 
+    <div class="error-message" id="error-message">
+     Usuário ou senha incorretos
+    </div> 
+    <form id="login-form"> 
+     <div class="form-group"> <label for="username">Usuário</label> 
+      <input type="text" id="username" placeholder="Digite seu usuário" required> 
+     </div> 
+     <div class="form-group"> <label for="password">Senha</label> 
+      <input type="password" id="password" placeholder="Digite sua senha" required> 
+     </div> <button type="submit" class="btn">Entrar</button> 
+    </form> 
+    <div class="register-link">
+      Não tem uma conta? <a href="#" id="register-link">Registre-se</a> 
+    </div> 
+   </div> <!-- Painel de registro --> 
+   <div class="right-panel" id="register-panel" style="display: none;"> 
+    <div class="logo"> 
+     <h2>FitTrack</h2> 
+     <p>Crie sua conta</p> 
+    </div> 
+    <div class="error-message" id="register-error-message"></div> 
+    <form id="register-form"> 
+     <div class="form-group"> <label for="reg-username">Usuário</label> 
+      <input type="text" id="reg-username" placeholder="Digite um nome de usuário" required> 
+     </div> 
+     <div class="form-group"> <label for="reg-password">Senha</label> 
+      <input type="password" id="reg-password" placeholder="Digite uma senha" required> 
+     </div> 
+     <div class="form-group"> <label for="reg-confirm-password">Confirme a Senha</label> 
+      <input type="password" id="reg-confirm-password" placeholder="Confirme sua senha" required> 
+     </div> <button type="submit" class="btn">Registrar</button> 
+    </form> 
+    <div class="register-link">
+      Já tem uma conta? <a href="#" id="login-link">Faça login</a> 
+    </div> 
+   </div> 
+  </div> <!-- Dashboard --> 
+  <div class="dashboard" id="dashboard"> 
+   <div class="container"> 
+    <aside class="sidebar"> 
+     <div class="logo"> 
+      <h2>FitTrack</h2> 
+      <p>Seu progresso em um lugar</p> 
+     </div> 
+     <ul class="nav-menu"> 
+      <li class="nav-item active" data-section="dashboard-section"> <i>📊</i> Dashboard </li> 
+      <li class="nav-item" data-section="workouts-section"> <i>🏋️</i> Treinos </li> 
+      <li class="nav-item" data-section="progress-section"> <i>📈</i> Progresso </li> 
+      <li class="nav-item" data-section="weight-section"> <i>⚖️</i> Peso </li> 
+      <li class="nav-item" id="logout-btn"> <i>🚪</i> Sair </li> 
+     </ul> 
+    </aside> 
+    <main class="main-content"> 
+     <div class="header"> 
+      <h1 id="main-title">Dashboard</h1> 
+      <div class="user-info"> 
+       <img id="user-avatar" src="https://ui-avatars.com/api/?name=Usuario+FitTrack&amp;background=2ecc71&amp;color=fff" alt="Usuário"> <span id="username-display">Usuário FitTrack</span> 
+      </div> 
+     </div> <!-- Seção Dashboard --> 
+     <div class="section active" id="dashboard-section"> 
+      <div class="cards-container"> 
+       <div class="card"> 
+        <div class="card-header"> <span class="card-title">Treinos esta semana</span> <span class="card-change positive">+2</span> 
+        </div> 
+        <div class="card-value" id="workouts-week">
+         3
+        </div> 
+       </div> 
+       <div class="card"> 
+        <div class="card-header"> <span class="card-title">Peso atual</span> <span class="card-change negative">-1kg</span> 
+        </div> 
+        <div class="card-value" id="current-weight">
+         78kg
+        </div> 
+       </div> 
+       <div class="card"> 
+        <div class="card-header"> <span class="card-title">Média de repetições</span> <span class="card-change positive">+5%</span> 
+        </div> 
+        <div class="card-value" id="avg-reps">
+         12
+        </div> 
+       </div> 
+       <div class="card"> 
+        <div class="card-header"> <span class="card-title">Carga máxima</span> <span class="card-change positive">+10kg</span> 
+        </div> 
+        <div class="card-value" id="max-weight">
+         120kg
+        </div> 
+       </div> 
+      </div> 
+      <div class="charts-container"> 
+       <div class="chart-card"> 
+        <h3 class="chart-title">Progressão de Peso</h3> 
+        <canvas id="weightChart"></canvas> 
+       </div> 
+       <div class="chart-card"> 
+        <h3 class="chart-title">Progressão de Força</h3> 
+        <canvas id="strengthChart"></canvas> 
+       </div> 
+      </div> 
+     </div> <!-- Seção Treinos --> 
+     <div class="section" id="workouts-section"> 
+      <div class="tabs"> 
+       <div class="tab active" data-tab="workout-form">
+        Adicionar Treino
+       </div> 
+       <div class="tab" data-tab="weight-form">
+        Registrar Peso
+       </div> 
+      </div> 
+      <div class="tab-content active" id="workout-form"> 
+       <div class="workout-form"> 
+        <h3 class="form-title">Registrar Novo Treino</h3> 
+        <div class="form-group"> <label for="workout-date">Data</label> 
+         <input type="date" id="workout-date" required> 
+        </div> 
+        <div class="form-group"> <label for="exampleFormControlSelect1">Tipo de Treino</label> <select id="workout-type" required> <option value="">Selecione...</option> <option value="peito">Peito</option> <option value="costas">Costas</option> <option value="pernas">Pernas</option> <option value="ombros">Ombros</option> <option value="braços">Braços</option> <option value="cardio">Cardio</option> <option value="fullbody">Full Body</option> </select> 
+        </div> 
+        <div id="exercises-container"> 
+         <div class="exercise"> 
+          <div class="form-group"> <label for="exercise-name">Exercício</label> 
+           <input type="text" id="exercise-name" placeholder="Ex: Supino Reto" required> 
+          </div> 
+          <div id="sets-container"> 
+           <div class="exercise-set"> 
+            <input type="number" placeholder="Série" class="set-number" value="1" readonly> 
+            <input type="number" placeholder="Peso (kg)" class="set-weight" required> 
+            <input type="number" placeholder="Repetições" class="set-reps" required> <span class="remove-set">❌</span> 
+           </div> 
+          </div> <span class="add-set">+ Adicionar Série</span> 
+         </div> 
+        </div> <button class="btn" id="add-exercise">Adicionar Exercício</button> <button class="btn" id="save-workout">Salvar Treino</button> 
+       </div> 
+      </div> 
+      <div class="tab-content" id="weight-form"> 
+       <div class="workout-form"> 
+        <h3 class="form-title">Registrar Peso Corporal</h3> 
+        <div class="form-group"> <label for="weight-date">Data</label> 
+         <input type="date" id="weight-date" required> 
+        </div> 
+        <div class="form-group"> <label for="body-weight">Peso (kg)</label> 
+         <input type="number" step="0.1" id="body-weight" placeholder="Ex: 78.5" required> 
+        </div> 
+        <div class="form-group"> <label for="body-fat">% Gordura Corporal (opcional)</label> 
+         <input type="number" step="0.1" id="body-fat" placeholder="Ex: 15.5"> 
+        </div> <button class="btn" id="save-weight">Salvar Peso</button> 
+       </div> 
+      </div> 
+      <div class="workout-history"> 
+       <h3 class="history-title">Histórico de Treinos</h3> 
+       <table id="workout-table"> 
+        <thead> 
+         <tr> 
+          <th>Data</th> 
+          <th>Tipo</th> 
+          <th>Exercícios</th> 
+          <th>Ações</th> 
+         </tr> 
+        </thead> 
+        <tbody id="workout-history-body"> <!-- Preenchido via JavaScript --> 
+        </tbody> 
+       </table> 
+      </div> 
+     </div> <!-- Seção Progresso --> 
+     <div class="section" id="progress-section"> 
+      <div class="charts-container"> 
+       <div class="chart-card"> 
+        <h3 class="chart-title">Evolução de Carga</h3> 
+        <canvas id="loadProgressChart"></canvas> 
+       </div> 
+       <div class="chart-card"> 
+        <h3 class="chart-title">Evolução de Repetições</h3> 
+        <canvas id="repsProgressChart"></canvas> 
+       </div> 
+      </div> 
+     </div> <!-- Seção Peso --> 
+     <div class="section" id="weight-section"> 
+      <div class="workout-form"> 
+       <h3 class="form-title">Registrar Novo Peso</h3> 
+       <div class="form-row"> 
+        <div class="form-group"> <label for="weight-date">Data</label> 
+         <input type="date" id="weight-date-2" required> 
+        </div> 
+        <div class="form-group"> <label for="body-weight">Peso (kg)</label> 
+         <input type="number" step="0.1" id="body-weight-2" placeholder="Ex: 78.5" required> 
+        </div> 
+       </div> 
+       <div class="form-row"> 
+        <div class="form-group"> <label for="body-fat">% Gordura Corporal</label> 
+         <input type="number" step="0.1" id="body-fat-2" placeholder="Ex: 15.5"> 
+        </div> 
+        <div class="form-group"> <label for="body-muscle">% Músculo (opcional)</label> 
+         <input type="number" step="0.1" id="body-muscle" placeholder="Ex: 45.5"> 
+        </div> 
+       </div> <button class="btn" id="save-weight-2">Salvar Medidas</button> 
+      </div> 
+      <div class="charts-container"> 
+       <div class="chart-card"> 
+        <h3 class="chart-title">Histórico de Peso</h3> 
+        <canvas id="weightHistoryChart"></canvas> 
+       </div> 
+       <div class="chart-card"> 
+        <h3 class="chart-title">Composição Corporal</h3> 
+        <canvas id="bodyCompositionChart"></canvas> 
+       </div> 
+      </div> 
+     </div> 
+    </main> 
+   </div> 
+  </div> <!-- Modal para visualizar treino --> 
+  <div class="modal" id="workout-modal"> 
+   <div class="modal-content"> 
+    <div class="modal-header"> 
+     <h2 id="modal-workout-title">Detalhes do Treino</h2> <button class="close-modal">×</button> 
+    </div> 
+    <div id="modal-workout-content"> <!-- Preenchido via JavaScript --> 
+    </div> 
+   </div> 
+  </div> <button class="theme-toggle" id="theme-toggle">🌓</button> 
+  <script src="script.js"></script> 
+ 
+</body></html>
